@@ -1,7 +1,10 @@
 CC=g++
 CFLAGS=-Wall -Werror -ansi -pedantic
+SDIR=src
+ODIR=bin
 
 all: rshell
 
 rshell:
-	$(CC) $(CFLAGS) src/*.cpp -o bin/rshell
+	mkdir -p $(ODIR)
+	$(CC) $(CFLAGS) $(SDIR)/*.cpp $(SDIR)/*.h -o $(ODIR)/rshell
