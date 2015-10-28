@@ -4,7 +4,7 @@
 const char * const Parser::CONNECTOR[] = { "&&", "||", ";" };
 
 Parser::Parser(char * rawInput) {
-    cout << "Creating Parser" << endl;
+    //cout << "Creating Parser" << endl;
     tokLine = tokenize(rawInput);
 }
 
@@ -16,7 +16,7 @@ vector<char*> Parser::tokenize(char * line) {
     char * temp;
     char * token;
 
-    cout << "Tokenizing." << endl;
+    //cout << "Tokenizing." << endl;
     token = strtok(line, " ");
     while (token != NULL) {
         temp = new char[sizeof(token)];
@@ -28,18 +28,25 @@ vector<char*> Parser::tokenize(char * line) {
     return tokens;
 }
 
-char** Parser::createArgArr(vector<char*>::const_iterator i) {
+char** Parser::createArgArr(vector<char*>::const_iterator &i) {
+    /*int k = 0;
+    vector<char*>::const_iterator h = i;
+    while (!isConnector(*h) && h++ != tokLine.end()) {
+        k++;
+    }*/
     char ** args = new char*[MAXARGS];
+    //cout << "Created args[]" << endl;
 
-    cout << "Crating args[]" << endl;
+    //cout << "Crating args[]" << endl;
     int j = 0;
-    while (!isConnector(*i++)) {
+    while (!isConnector(*i) && i != tokLine.end()) {
         // add element to args[]
         args[j] = new char[sizeof(*i)];
-        strcpy(args[j++], *i);
-        cout << "args[" << j <<"] = " << args[j] << endl;
+        //cout << "*i = " << *i << endl;
+        strcpy(args[j++], (const char*)*i++);
+        cout << "args[" << (j-1) <<"] = " << args[j-1] << endl;
     }
-    // args[j] = "\0";
+    args[j] = NULL;
     return args;
 }
 
@@ -52,40 +59,49 @@ bool Parser::isConnector(char *token) {
 }
 
 Instruction * Parser::createTree() {
-    Instruction *exeTree = NULL;
-    char * temp;
+//    Instruction *exeTree = NULL;
+//    char * temp;
+//    Command *cmd_1, *cmd_2;
+//    Connector *conn;
 
     vector<char*>::const_iterator i = tokLine.begin();
-    cout << "Creating command: " << *i << endl;
-    Command * cmd_1 = new Command(*(i++), createArgArr(i));
-    cout << *i << endl;
-    exeTree = cmd_1;
-    cout << "First command created successfully!" << endl;
-    while (i != tokLine.end()) {
-        //Command * cmd_1 = new Command(*(i++), createArgArr(i));
-        if (isConnector(*i)) {
-            temp = *(i++);
-            cout << "Creating command: " << *i << endl;
-            Command * cmd_2 = new Command(*(i++), createArgArr(i));
-            // deal with individual connectors
-            Connector * conn = newConnector(cmd_1, cmd_2, i);
-            exeTree = conn;
-        }
-    }
-    return exeTree;
+    //cout << "Creating command: " << *i << endl;
+    Command * cmd_1 = new Command(*i, createArgArr(i));
+    //cmd_1->print();
+    //cout << *i << endl;
+//    exeTree = cmd_1;
+    //cout << "First command created successfully!" << endl;
+//    while (i != tokLine.end()) {
+//        cmd_1 = new Command(*i, createArgArr(i));
+//        exeTree = cmd_1;
+//        while (isConnector(*i)) {
+//            temp = *i++;
+//            //cout << "Creating command: " << *i << endl;
+//            cmd_2 = new Command(*i, createArgArr(i));
+//            // deal with individual connectors
+//            conn = newConnector(exeTree, cmd_2, temp);
+//            //cout << "Command created successfully!" << endl;
+//            exeTree = conn;
+//        }
+//    }
+//    return exeTree;
+    return cmd_1;
 }
 
-Connector * Parser::newConnector(Command * cmd_1, Command * cmd_2,
-        vector<char*>::const_iterator i) {
+Connector * Parser::newConnector(Instruction * inst_1, Instruction * inst_2,
+        char* conn) {
     Connector *temp = NULL;
-    if (!strcmp(*i, "&&")) {
-        And *tempAnd =  new And(cmd_1, cmd_2);
+    if (strcmp(conn, "&&") == 0) {
+        cout << "Creating AND connector." << endl;
+        And *tempAnd =  new And(inst_1, inst_2);
         temp = tempAnd;
-    } else if (strcmp(*i, "||")) {
-        Or *tempOr =  new Or(cmd_1, cmd_2);
+    } else if (strcmp(conn, "||") == 0) {
+        cout << "Creating OR connector." << endl;
+        Or *tempOr =  new Or(inst_1, inst_2);
         temp = tempOr;
-    } else if (strcmp(*i, ";")) {
-        SemiColon *tempSemi =  new SemiColon(cmd_1, cmd_2);
+    } else { // if (!strcmp(conn, ";")) {
+        cout << "Creating SEMICOLOR connector." << endl;
+        SemiColon *tempSemi =  new SemiColon(inst_1, inst_2);
         temp = tempSemi;
     }
     // error

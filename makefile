@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Wall -Werror -ansi -pedantic
+CFLAGS=-Wall -Werror #-ansi # -pedantic
 SDIR=src
 ODIR=bin
 

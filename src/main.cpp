@@ -22,25 +22,28 @@ int main(int argc, char *argv[]) {
         c_pid = fork();
 
         if (pid < 0) {
-            cout << "pid = 0" << endl;
+            //cout << "pid = 0" << endl;
             perror("fork failed");
             exit(1);
         } else if (c_pid == 0) {
             pid = getpid();
+            cout << "Child: " << endl;
 
-        //    cout << "Running parser on line." << endl;
+            //cout << "Running parser on line." << endl;
             Parser parsed = Parser(line);
-         //   cout << "printing parser information." << endl;
-         //   parsed.printall();
+            //cout << "printing parser information." << endl;
+            //parsed.printall();
             
             Instruction * instruction = parsed.createTree();
             instruction->execute();
+            instruction->print();
             exit(12);
         } else if (c_pid > 0) {
             if ((pid = wait(&status)) < 0) {
                 perror("wait");
                 exit(1);
             }
+            cout << "Parent: " << endl;
         }
     }
 }

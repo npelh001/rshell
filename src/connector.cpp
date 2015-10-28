@@ -11,6 +11,11 @@ Connector::~Connector() {
     delete(right);
 }
 
+void Connector::print() {
+    left->print();
+    right->print();
+}
+
 And::And(Instruction *lInst, Instruction *rInst) 
         : Connector(lInst, rInst) {
 }

@@ -16,15 +16,15 @@ class Parser {
         vector<char*> tokLine;
         static const char * const CONNECTOR[];
 
+        vector<char*> tokenize(char *);
+        bool isConnector(char *);
+        char** createArgArr(vector<char*>::const_iterator &);
+        Connector * newConnector(Instruction *, Instruction *, char*);
+
     public:
         Parser(char *);
         ~Parser();
-        vector<char*> tokenize(char *);
-        char** createArgArr(vector<char*>::const_iterator);
-        bool isConnector(char *);
         Instruction * createTree();
-        Connector * newConnector(Command *, Command *, 
-                vector<char*>::const_iterator);
         void printall();
 };
 
