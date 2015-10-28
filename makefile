@@ -7,4 +7,4 @@ all: rshell
 
 rshell:
 	mkdir -p $(ODIR)
-	$(CC) $(CFLAGS) $(SDIR)/*.cpp $(SDIR)/*.h -o $(ODIR)/rshell
+	$(CC) $(CFLAGS) $(SDIR)/*.cpp $(SDIR)/*.h -o $(ODIR)/rshell # 2> errorlog

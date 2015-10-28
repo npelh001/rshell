@@ -25,20 +25,22 @@ class Command : public Instruction {
         char ** args;
 
     public:
-        Command();
+        Command(char *, char **);
         ~Command();
-        bool execute();
+        virtual bool execute();
 };
 
 class Connector : public Instruction {
     private:
-        Instruction * left;
-        Instruction * right;
+    protected:
+        Instruction *left;
+        Instruction *right;
 
     public:
         Connector(Instruction * lInst, Instruction * rInst);
         virtual ~Connector();
-        virtual bool execute() = 0;
+        virtual bool execute() { return connect(); };
+        virtual bool connect() = 0;
 };
 
 #endif

@@ -28,10 +28,13 @@ int main(int argc, char *argv[]) {
         } else if (c_pid == 0) {
             pid = getpid();
 
-            cout << "Running parser on line." << endl;
+        //    cout << "Running parser on line." << endl;
             Parser parsed = Parser(line);
-            cout << "printing parser information." << endl;
-            parsed.printall();
+         //   cout << "printing parser information." << endl;
+         //   parsed.printall();
+            
+            Instruction * instruction = parsed.createTree();
+            instruction->execute();
             exit(12);
         } else if (c_pid > 0) {
             if ((pid = wait(&status)) < 0) {
