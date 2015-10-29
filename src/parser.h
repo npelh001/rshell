@@ -8,6 +8,7 @@
 
 #define NUMCONNECTORS 3
 #define MAXARGS 8
+#define NUMCOMMENTS 1
 
 using namespace std;
 
@@ -15,9 +16,11 @@ class Parser {
     private:
         vector<char*> tokLine;
         static const char * const CONNECTOR[];
+        static const char * const COMMENT[];
 
         vector<char*> tokenize(char *);
         bool isConnector(char *);
+        bool isComment(char *);
         char** createArgArr(vector<char*>::const_iterator &);
         Connector * newConnector(Instruction *, Instruction *, char*);
 

@@ -2,6 +2,7 @@
 #include "parser.h"
 
 const char * const Parser::CONNECTOR[] = { "&&", "||", ";" };
+const char * const Parser::COMMENT[] = { "#" };
 
 Parser::Parser(char * rawInput) {
     //cout << "Creating Parser" << endl;
@@ -39,7 +40,8 @@ char** Parser::createArgArr(vector<char*>::const_iterator &i) {
 
     //cout << "Crating args[]" << endl;
     int j = 0;
-    while (((i != tokLine.end()) && !isConnector(*i))) {
+    while ((i != tokLine.end()) && !isConnector(*i)
+            && !isComment(*i)) {
         // add element to args[]
         args[j] = new char[sizeof(*i)];
         //cout << "*i = " << *i << endl;
@@ -52,40 +54,49 @@ char** Parser::createArgArr(vector<char*>::const_iterator &i) {
 
 bool Parser::isConnector(char *token) {
     for (int i = 0; i < NUMCONNECTORS; i++) {
-        if (!strcmp(token, CONNECTOR[i]))
+        if (strcmp(token, CONNECTOR[i]) == 0)
+            return true;
+    }
+    return false;
+}
+
+bool Parser::isComment(char *token) {
+    for (int i = 0; i < NUMCOMMENTS; i++) {
+        if (strcmp(token, COMMENT[i]) == 0)
             return true;
     }
     return false;
 }
 
 Instruction * Parser::createTree() {
-//    Instruction *exeTree = NULL;
-//    char * temp;
-//    Command *cmd_1, *cmd_2;
-//    Connector *conn;
+    Instruction *exeTree = NULL;
+    char * temp;
+    Command *cmd_1, *cmd_2;
+    Connector *conn;
 
     vector<char*>::const_iterator i = tokLine.begin();
     //cout << "Creating command: " << *i << endl;
-    Command * cmd_1 = new Command(*i, createArgArr(i));
+//    Command * cmd_1 = new Command(*i, createArgArr(i));
     //cmd_1->print();
     //cout << *i << endl;
 //    exeTree = cmd_1;
     //cout << "First command created successfully!" << endl;
 //    while (i != tokLine.end()) {
-//        cmd_1 = new Command(*i, createArgArr(i));
-//        exeTree = cmd_1;
-//        while (isConnector(*i)) {
-//            temp = *i++;
-//            //cout << "Creating command: " << *i << endl;
-//            cmd_2 = new Command(*i, createArgArr(i));
-//            // deal with individual connectors
-//            conn = newConnector(exeTree, cmd_2, temp);
-//            //cout << "Command created successfully!" << endl;
-//            exeTree = conn;
-//        }
+        cmd_1 = new Command(*i, createArgArr(i));
+        exeTree = cmd_1;
+        while (i != tokLine.end() && isConnector(*i)
+                && !isComment(*i)) {
+            temp = *i++;
+            //cout << "Creating command: " << *i << endl;
+            cmd_2 = new Command(*i, createArgArr(i));
+            // deal with individual connectors
+            conn = newConnector(exeTree, cmd_2, temp);
+            //cout << "Command created successfully!" << endl;
+            exeTree = conn;
+        }
 //    }
-//    return exeTree;
-    return cmd_1;
+    return exeTree;
+//    return cmd_1;
 }
 
 Connector * Parser::newConnector(Instruction * inst_1, Instruction * inst_2,

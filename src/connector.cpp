@@ -24,11 +24,8 @@ And::~And() {
 }
 
 bool And::connect() {
-    left->execute();
-    // if it succeeds
-    right->execute();
-    // if it succeeds
-    // return true;
+    if (left->execute())
+        return right->execute();
     return false;
 }
 
@@ -40,13 +37,10 @@ Or::~Or() {
 }
 
 bool Or::connect() {
-    left->execute();
-    // if it succeeds
-    // return true;
-    // else
-    right->execute();
-    // if it succeeds
-    // return true
+    if (left->execute())
+        return true;
+    if (right->execute())
+        return true;
     return false;
 }
 
