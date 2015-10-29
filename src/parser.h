@@ -25,8 +25,10 @@ class Parser {
         Connector * newConnector(Instruction *, Instruction *, char*);
 
     public:
+        Parser() {};
         Parser(char *);
         ~Parser();
+        void parse(char *);
         Instruction * createTree();
         void printall();
 };

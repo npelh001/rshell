@@ -1,3 +1,13 @@
+/*
+ * Author: Nicholas Pelham
+ * Date  : 10/29/15
+ *
+ * Parser: Deals with all raw input.
+ *         Tokenizes an input line.
+ *         Creates argv[] array for commands.
+ *         Deals with all aspects of creating the tree used for execution
+ *         of all input commands.
+ */
 
 #include "parser.h"
 
@@ -5,12 +15,22 @@ const char * const Parser::CONNECTOR[] = { "&&", "||", ";" };
 const char * const Parser::COMMENT[] = { "#" };
 
 Parser::Parser(char * rawInput) {
-    tokLine = tokenize(rawInput);
+    parse(rawInput);
 }
 
 Parser::~Parser() {
 }
 
+/*
+ * parse: stores rawInput as a tokenized vector of c style strings.
+ */
+void Parser::parse(char * rawInput) {
+    tokLine = tokenize(rawInput);
+}
+/*
+ * tokenize: breaks up raw input into a tokenized array of c style strings.
+ *           returns a vector of all the tokens created.
+ */
 vector<char*> Parser::tokenize(char * line) {
     vector<char*> tokens;
     char * temp;
@@ -27,6 +47,10 @@ vector<char*> Parser::tokenize(char * line) {
     return tokens;
 }
 
+/* createArgArr: creates an array of c style strings to be used in command 
+ *               execution.
+ *               Used to create instances of Command
+ */
 char** Parser::createArgArr(vector<char*>::const_iterator &i) {
     char ** args = new char*[MAXARGS];
 
@@ -41,6 +65,8 @@ char** Parser::createArgArr(vector<char*>::const_iterator &i) {
     return args;
 }
 
+/*
+ */
 bool Parser::isConnector(char *token) {
     for (int i = 0; i < NUMCONNECTORS; i++) {
         if (strcmp(token, CONNECTOR[i]) == 0)
@@ -49,6 +75,8 @@ bool Parser::isConnector(char *token) {
     return false;
 }
 
+/*
+ */
 bool Parser::isComment(char *token) {
     for (int i = 0; i < NUMCOMMENTS; i++) {
         if (strcmp(token, COMMENT[i]) == 0)
@@ -57,6 +85,12 @@ bool Parser::isComment(char *token) {
     return false;
 }
 
+/* 
+ * createTree: Creates a command tree out of information stored in tokLine.
+ *             The tree is stored as instances of Instruction, but each node
+ *             is either a Command or a Connector.
+ *             All leaves should be Commans.
+ */
 Instruction * Parser::createTree() {
     Instruction *exeTree = NULL;
     char * temp;
@@ -77,6 +111,10 @@ Instruction * Parser::createTree() {
     return exeTree;
 }
 
+/*
+ * newConnector: Creates a new connector from a pair of Instructionsand a 
+ * C style string containing the characters representing that connection
+ */
 Connector * Parser::newConnector(Instruction * inst_1, Instruction * inst_2,
         char* conn) {
     Connector *temp = NULL;
@@ -93,6 +131,9 @@ Connector * Parser::newConnector(Instruction * inst_1, Instruction * inst_2,
     return temp;
 }
 
+/*
+ * printAll: Useful for debugging purposes.
+ */
 void Parser::printall() {
     for (vector<char*>::const_iterator i = tokLine.begin();
             i != tokLine.end(); i++) {

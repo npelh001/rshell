@@ -1,9 +1,15 @@
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <stdio.h>
-#include <iostream>
+/*
+ * Author: Nicholas Pelham
+ * Date  : 10/29/15
+ *
+ * Command: Wrapper to execute individual commands within the greater program 
+ * structure.
+ */
+
+// TO DO:
+//   Correctly detect if an execvp call failed due to incorrect syntax, 
+//   missing file/command, or other input related reasons.
+
 #include "instruction.h"
 
 Command::Command(char* exe, char** args) {
@@ -16,6 +22,10 @@ Command::~Command() {
     delete(argv);
 }
 
+/*
+ * execute: forks the process to allow a command to run before continuing
+ *          program execution.
+ */
 bool Command::execute() {
     pid_t c_pid, pid;
     int status;
@@ -41,6 +51,9 @@ bool Command::execute() {
     return WIFEXITED(status);
 }
 
+/*
+ * print: Useful for debugging
+ */
 void Command::print() {
     cout << *argv << endl;
 }
