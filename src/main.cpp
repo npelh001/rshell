@@ -37,6 +37,7 @@ int main(int argc, char *argv[]) {
             Instruction * instruction = parsed.createTree();
             instruction->execute();
             instruction->print();
+            cout << "" << endl;
             exit(12);
         } else if (c_pid > 0) {
             if ((pid = wait(&status)) < 0) {

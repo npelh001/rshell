@@ -39,7 +39,7 @@ char** Parser::createArgArr(vector<char*>::const_iterator &i) {
 
     //cout << "Crating args[]" << endl;
     int j = 0;
-    while (!isConnector(*i) && i != tokLine.end()) {
+    while (((i != tokLine.end()) && !isConnector(*i))) {
         // add element to args[]
         args[j] = new char[sizeof(*i)];
         //cout << "*i = " << *i << endl;
