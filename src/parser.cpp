@@ -55,8 +55,7 @@ char** Parser::createArgArr(vector<char*>::const_iterator &i) {
     char ** args = new char*[MAXARGS];
 
     int j = 0;
-    while ((i != tokLine.end()) && !isConnector(*i)
-            && !isComment(*i)) {
+    while ((i != tokLine.end()) && !isConnector(*i) && !isComment(*i)) {
         // add element to args[]
         args[j] = new char[sizeof(*i)];
         strcpy(args[j++], (const char*)*i++);
@@ -98,10 +97,11 @@ Instruction * Parser::createTree() {
     Connector *conn;
 
     vector<char*>::const_iterator i = tokLine.begin();
-    cmd_1 = new Command(*i, createArgArr(i));
-    exeTree = cmd_1;
-    while (i != tokLine.end() && isConnector(*i)
-            && !isComment(*i)) {
+    if (!isComment(*i)) {
+        cmd_1 = new Command(*i, createArgArr(i));
+        exeTree = cmd_1;
+    }
+    while (i != tokLine.end() && isConnector(*i) && !isComment(*i)) {
         temp = *i++;
         cmd_2 = new Command(*i, createArgArr(i));
         // deal with individual connectors

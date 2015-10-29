@@ -24,7 +24,8 @@ int main(int argc, char *argv[]) {
         parser.parse(line);
         
         instruction = parser.createTree();
-        instruction->execute();
+        if (instruction != NULL)
+            instruction->execute();
 
         delete instruction;
     }
