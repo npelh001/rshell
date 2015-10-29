@@ -1,0 +1,13 @@
+Script started on Thu 29 Oct 2015 01:54:46 AM PDT
+]0;npelh001@hammer:~/rshel_bk[?1034h[npelh001@hammer rshel_bk]$ bin/rshell
+npelh001@hammer.cs.ucr.edu $ cat makefile              ls # This is a comment
+bin  LICENSE  makefile	README.md  src	tests
+npelh001@hammer.cs.ucr.edu $ ls # Comment         This comment hides a connector && ls -l
+bin  LICENSE  makefile	README.md  src	tests
+npelh001@hammer.cs.ucr.edu $ # This comment hides everything ls -l
+Error executing: No such file or directory
+npelh001@hammer.cs.ucr.edu $ exit
+]0;npelh001@hammer:~/rshel_bk[npelh001@hammer rshel_bk]$ exit
+exit
+
+Script done on Thu 29 Oct 2015 01:56:01 AM PDT

@@ -1,0 +1,44 @@
+Script started on Thu 29 Oct 2015 01:48:11 AM PDT
+]0;npelh001@hammer:~/rshel_bk[?1034h[npelh001@hammer rshel_bk]$ bin/rshell
+npelh001@hammer.cs.ucr.edu $ ls
+bin  LICENSE  makefile	README.md  src	tests
+npelh001@hammer.cs.ucr.edu $ ls -l
+total 36
+drwxr-xr-x 2 npelh001 csmajs  4096 Oct 29 01:30 bin
+-rw-r--r-- 1 npelh001 csmajs 18047 Oct 28 15:01 LICENSE
+-rw-r--r-- 1 npelh001 csmajs   163 Oct 29 01:23 makefile
+-rw-r--r-- 1 npelh001 csmajs     0 Oct 28 15:01 README.md
+drwxr-xr-x 2 npelh001 csmajs  4096 Oct 29 01:18 src
+drwxr-xr-x 2 npelh001 csmajs  4096 Oct 29 01:48 tests
+npelh001@hammer.cs.ucr.edu $ ls -l -l   a src
+total 36
+drwxr-xr-x 2 npelh001 csmajs 4096 Oct 29 01:18 .
+drwxr-xr-x 6 npelh001 csmajs 4096 Oct 29 01:47 ..
+-rw-r--r-- 1 npelh001 csmajs 1138 Oct 29 01:15 command.cpp
+-rw-r--r-- 1 npelh001 csmajs 1493 Oct 29 01:07 connector.cpp
+-rw-r--r-- 1 npelh001 csmajs  568 Oct 28 15:01 connectors.h
+-rw-r--r-- 1 npelh001 csmajs  962 Oct 28 15:32 instruction.h
+-rw-r--r-- 1 npelh001 csmajs  605 Oct 29 01:16 main.cpp
+-rw-r--r-- 1 npelh001 csmajs 3725 Oct 29 01:01 parser.cpp
+-rw-r--r-- 1 npelh001 csmajs  778 Oct 29 00:39 parser.h
+npelh001@hammer.cs.ucr.edu $ ls -l -a -badargument
+ls: invalid option -- 'e'
+Try `ls --help' for more information.
+npelh001@hammer.cs.ucr.edu $ cat makefile
+CC=g++
+CFLAGS=-Wall -Werror -ansi -pedantic
+SDIR=src
+ODIR=bin
+
+all: rshell
+
+rshell:
+	mkdir -p $(ODIR)
+	$(CC) $(CFLAGS) $(SDIR)/*.cpp $(SDIR)/*.h -o $(ODIR)/rshell
+npelh001@hammer.cs.ucr.edu $ thisisnotacommand
+Error executing: No such file or directory
+npelh001@hammer.cs.ucr.edu $ exit
+]0;npelh001@hammer:~/rshel_bk[npelh001@hammer rshel_bk]$ exit
+exit
+
+Script done on Thu 29 Oct 2015 01:49:32 AM PDT
