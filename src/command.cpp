@@ -12,13 +12,12 @@
 
 #include "instruction.h"
 
-Command::Command(char* exe, char** args) {
-    executable = exe;
+Command::Command(char** args, int &error) {
     argv = args;
+    err = &error;
 }
 
 Command::~Command() {
-    delete(executable);
     delete(argv);
 }
 
@@ -38,7 +37,7 @@ bool Command::execute() {
     } else if (c_pid == 0) {
         pid = getpid();
 
-        execvp(executable, argv);
+        *err = execvp(argv[0], argv);
         perror("Error executing");
         exit(12);
     } else if (c_pid > 0) {
@@ -48,12 +47,8 @@ bool Command::execute() {
         }
     }
 
-    return WIFEXITED(status);
-}
-
-/*
- * print: Useful for debugging
- */
-void Command::print() {
-    cout << *argv << endl;
+    if (*err == -1) {
+        return false;
+    }
+    return true;
 }

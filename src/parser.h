@@ -14,9 +14,10 @@ using namespace std;
 
 class Parser {
     private:
-        vector<char*> tokLine;
         static const char * const CONNECTOR[];
         static const char * const COMMENT[];
+        vector<char*> tokLine;
+        int error;
 
         vector<char*> tokenize(char *);
         bool isConnector(char *);
@@ -30,7 +31,6 @@ class Parser {
         ~Parser();
         void parse(char *);
         Instruction * createTree();
-        void printall();
 };
 
 #endif

@@ -23,14 +23,6 @@ Connector::~Connector() {
     delete(right);
 }
 
-/*
- * print: Useful for debugging
- */
-void Connector::print() {
-    left->print();
-    right->print();
-}
-
 And::And(Instruction *lInst, Instruction *rInst) 
         : Connector(lInst, rInst) {
 }
@@ -42,7 +34,7 @@ And::~And() {
  * Execute the right Instruction only if the left succeeds.
  * Returns false if either Instruction fails.
  */
-bool And::connect() {
+bool And::execute() {
     if (left->execute())
         return right->execute();
     return false;
@@ -59,7 +51,7 @@ Or::~Or() {
  * Execute the right Instruction only if the left fails.
  * Returns true if either Instruction succeeds.
  */
-bool Or::connect() {
+bool Or::execute() {
     if (left->execute())
         return true;
     if (right->execute())
@@ -77,7 +69,7 @@ SemiColon::~SemiColon() {
 /*
  * Executes both Instructions regardless of success or failure.
  */
-bool SemiColon::connect() {
+bool SemiColon::execute() {
     left->execute();
     right->execute();
     return true;

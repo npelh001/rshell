@@ -8,7 +8,7 @@ class And : public Connector {
     public:
         And(Instruction *, Instruction *);
         virtual ~And();
-        virtual bool connect();
+        virtual bool execute();
 };
 
 class Or : public Connector {
@@ -16,7 +16,7 @@ class Or : public Connector {
     public:
         Or(Instruction *, Instruction *);
         virtual ~Or();
-        virtual bool connect();
+        virtual bool execute();
 };
 
 class SemiColon : public Connector {
@@ -24,7 +24,7 @@ class SemiColon : public Connector {
     public:
         SemiColon(Instruction *, Instruction *);
         virtual ~SemiColon();
-        virtual bool connect();
+        virtual bool execute();
 };
 
 #endif

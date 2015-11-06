@@ -17,19 +17,17 @@ class Instruction {
         Instruction() {};
         virtual ~Instruction() {};
         virtual bool execute() = 0;
-        virtual void print() = 0;
 };
 
 class Command : public Instruction {
     private:
-        char * executable;
         char ** argv;
+        int * err;
 
     public:
-        Command(char *, char **);
+        Command(char **, int &);
         ~Command();
         virtual bool execute();
-        virtual void print();
 };
 
 class Connector : public Instruction {
@@ -41,9 +39,7 @@ class Connector : public Instruction {
     public:
         Connector(Instruction * lInst, Instruction * rInst);
         virtual ~Connector();
-        virtual bool execute() { return connect(); };
-        virtual bool connect() = 0;
-        virtual void print();
+        virtual bool execute() = 0;
 };
 
 #endif

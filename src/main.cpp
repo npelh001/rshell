@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
     char *name, host[32];
     char line[1024];
     Parser parser;
-    Instruction *instruction;
+    Instruction *instruction = NULL;
     
     // Get info for input prompt
     name = getlogin();
@@ -20,9 +20,9 @@ int main(int argc, char *argv[]) {
         // Exit command
         if (!strcmp(line,"exit"))
             break;
-
-        parser.parse(line);
         
+        parser.parse(line);
+
         instruction = parser.createTree();
         if (instruction != NULL)
             instruction->execute();

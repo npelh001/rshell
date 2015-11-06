@@ -1,13 +1,19 @@
-Script started on Thu 29 Oct 2015 01:54:46 AM PDT
-]0;npelh001@hammer:~/rshel_bk[?1034h[npelh001@hammer rshel_bk]$ bin/rshell
-npelh001@hammer.cs.ucr.edu $ cat makefile              ls # This is a comment
-bin  LICENSE  makefile	README.md  src	tests
-npelh001@hammer.cs.ucr.edu $ ls # Comment         This comment hides a connector && ls -l
-bin  LICENSE  makefile	README.md  src	tests
-npelh001@hammer.cs.ucr.edu $ # This comment hides everything ls -l
+Script started on Fri 06 Nov 2015 01:59:40 PM PST
+]0;npelh001@hammer:~/rshel_bk[?1034h[npelh001@hammer rshel_bk]$ binn/[K[K/rshell
+npelh001@hammer.cs.ucr.edu $ ls # this        This is a comment
+bin  build  LICENSE  makefile  README.md  src  tests
+npelh001@hammer.cs.ucr.edu $ ls # This comment hides a comm  nned ctor && ls -l
+bin  build  LICENSE  makefile  README.md  src  tests
+npelh001@hammer.cs.ucr.edu $ # ls # Thi        # This comment hides everything
+npelh001@hammer.cs.ucr.edu $ ls #    #This comment doesn't work
 Error executing: No such file or directory
+npelh001@hammer.cs.ucr.edu $ ls #This    Neither does this one                    iether does this one
+ls: cannot access #Niether: No such file or directory
+ls: cannot access does: No such file or directory
+ls: cannot access this: No such file or directory
+ls: cannot access one: No such file or directory
 npelh001@hammer.cs.ucr.edu $ exit
 ]0;npelh001@hammer:~/rshel_bk[npelh001@hammer rshel_bk]$ exit
 exit
 
-Script done on Thu 29 Oct 2015 01:56:01 AM PDT
+Script done on Fri 06 Nov 2015 02:01:23 PM PST

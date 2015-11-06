@@ -16,6 +16,7 @@ const char * const Parser::COMMENT[] = { "#" };
 
 Parser::Parser(char * rawInput) {
     parse(rawInput);
+    error = 0;
 }
 
 Parser::~Parser() {
@@ -47,7 +48,8 @@ vector<char*> Parser::tokenize(char * line) {
     return tokens;
 }
 
-/* createArgArr: creates an array of c style strings to be used in command 
+/*
+ * createArgArr: creates an array of c style strings to be used in command 
  *               execution.
  *               Used to create instances of Command
  */
@@ -98,12 +100,12 @@ Instruction * Parser::createTree() {
 
     vector<char*>::const_iterator i = tokLine.begin();
     if (!isComment(*i)) {
-        cmd_1 = new Command(*i, createArgArr(i));
+        cmd_1 = new Command(createArgArr(i), error);
         exeTree = cmd_1;
     }
     while (i != tokLine.end() && isConnector(*i) && !isComment(*i)) {
         temp = *i++;
-        cmd_2 = new Command(*i, createArgArr(i));
+        cmd_2 = new Command(createArgArr(i), error);
         // deal with individual connectors
         conn = newConnector(exeTree, cmd_2, temp);
         exeTree = conn;
@@ -129,15 +131,4 @@ Connector * Parser::newConnector(Instruction * inst_1, Instruction * inst_2,
         temp = tempSemi;
     }
     return temp;
-}
-
-/*
- * printAll: Useful for debugging purposes.
- */
-void Parser::printall() {
-    for (vector<char*>::const_iterator i = tokLine.begin();
-            i != tokLine.end(); i++) {
-        cout << *i << " ";
-    }
-    cout << endl;
 }
