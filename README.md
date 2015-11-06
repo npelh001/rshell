@@ -17,3 +17,7 @@ The connectors included in rshell are:
     * alias
     * logout
 * All output from rshell is monocolored. Output colors expected from commands like ls are not displayed.
+* exit does not work in several cases:
+    * when surrounded by whitespace
+    * when followed by a comment
+    * when connected to other commands with a valid connector

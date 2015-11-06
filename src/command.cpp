@@ -7,8 +7,9 @@
  */
 
 // TO DO:
-//   Correctly detect if an execvp call failed due to incorrect syntax, 
+// * Correctly detect if an execvp call failed due to incorrect syntax, 
 //   missing file/command, or other input related reasons.
+// * Create way to handle special commands like exit.
 
 #include "instruction.h"
 

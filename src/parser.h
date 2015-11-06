@@ -22,6 +22,7 @@ class Parser {
         vector<char*> tokenize(char *);
         bool isConnector(char *);
         bool isComment(char *);
+        bool isExit(char *);
         char** createArgArr(vector<char*>::const_iterator &);
         Connector * newConnector(Instruction *, Instruction *, char*);
 

@@ -9,6 +9,9 @@
  *         of all input commands.
  */
 
+// TO DO:
+// * Create cases for special commands like exit
+
 #include "parser.h"
 
 const char * const Parser::CONNECTOR[] = { "&&", "||", ";" };
@@ -83,6 +86,15 @@ bool Parser::isComment(char *token) {
         if (strcmp(token, COMMENT[i]) == 0)
             return true;
     }
+    return false;
+}
+
+/*
+ * isExit: not yet implemented.
+ */
+bool Parser::isExit(char *token) {
+    if (strcmp(token, "exit") == 0)
+        return true;
     return false;
 }
 

@@ -1,19 +1,24 @@
-Script started on Fri 06 Nov 2015 01:59:40 PM PST
-]0;npelh001@hammer:~/rshel_bk[?1034h[npelh001@hammer rshel_bk]$ binn/[K[K/rshell
-npelh001@hammer.cs.ucr.edu $ ls # this        This is a comment
-bin  build  LICENSE  makefile  README.md  src  tests
-npelh001@hammer.cs.ucr.edu $ ls # This comment hides a comm  nned ctor && ls -l
-bin  build  LICENSE  makefile  README.md  src  tests
-npelh001@hammer.cs.ucr.edu $ # ls # Thi        # This comment hides everything
-npelh001@hammer.cs.ucr.edu $ ls #    #This comment doesn't work
+Script started on Fri 06 Nov 2015 03:02:39 PM PST
+]0;npelh001@hammer:~/rshel_bk[?1034h[npelh001@hammer rshel_bk]$ bin/rshell
+npelh001@hammer.cs.ucr.edu $ ls # This is a comment
+bin  build  commented_command.script  LICENSE  makefile  README.md  src  tests
+npelh001@hammer.cs.ucr.edu $ ls # this is also a comment -l
+bin  build  commented_command.script  LICENSE  makefile  README.md  src  tests
+npelh001@hammer.cs.ucr.edu $ ls # This comment hides a connector && ls -l
+bin  build  commented_command.script  LICENSE  makefile  README.md  src  tests
+npelh001@hammer.cs.ucr.edu $ ls #This comment doesn't work properly
+ls: cannot access #This: No such file or directory
+ls: cannot access comment: No such file or directory
+ls: cannot access doesn't: No such file or directory
+ls: cannot access work: No such file or directory
+ls: cannot access properly: No such file or directory
+npelh001@hammer.cs.ucr.edu $ #Niether does this one
 Error executing: No such file or directory
-npelh001@hammer.cs.ucr.edu $ ls #This    Neither does this one                    iether does this one
-ls: cannot access #Niether: No such file or directory
-ls: cannot access does: No such file or directory
-ls: cannot access this: No such file or directory
-ls: cannot access one: No such file or directory
+npelh001@hammer.cs.ucr.edu $ # But this one works just fine
+npelh001@hammer.cs.ucr.edu $ exit # Does not work with a comment
+Error executing: No such file or directory
 npelh001@hammer.cs.ucr.edu $ exit
 ]0;npelh001@hammer:~/rshel_bk[npelh001@hammer rshel_bk]$ exit
 exit
 
-Script done on Fri 06 Nov 2015 02:01:23 PM PST
+Script done on Fri 06 Nov 2015 03:04:12 PM PST
