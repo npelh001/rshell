@@ -3,7 +3,7 @@
  * Date  : 10/29/15
  *
  * Command: Wrapper to execute individual commands within the greater program 
- * structure.
+ *          structure.
  */
 
 // TO DO:
@@ -13,13 +13,25 @@
 
 #include "instruction.h"
 
-Command::Command(char** args, int &error) {
+Command::Command() {
+    left = NULL;
+    right = NULL;
+    argv = NULL;
+    err = NULL;
+}
+
+Command::Command(char** args, int & error) {
+    left = NULL;
+    right = NULL;
     argv = args;
     err = &error;
 }
 
 Command::~Command() {
+    delete(left);
+    delete(right);
     delete(argv);
+    // err is handled and contained in parser
 }
 
 /*
@@ -29,6 +41,10 @@ Command::~Command() {
 bool Command::execute() {
     pid_t c_pid, pid;
     int status;
+
+    // special case to handle exit command
+    if (strcmp(argv[0], "exit") == 0)
+        exit(0);
 
     c_pid = fork();
 

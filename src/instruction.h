@@ -7,16 +7,23 @@
 #include <sys/wait.h>
 #include <stdio.h>
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 
 class Instruction {
     private:
+    protected:
+        Instruction * left;
+        Instruction * right;
 
     public:
-        Instruction() {};
-        virtual ~Instruction() {};
+        Instruction();
+        Instruction(Instruction * lInst, Instruction * rInst);
+        virtual ~Instruction();
         virtual bool execute() = 0;
+        Instruction * addAsRoot(Instruction *, Instruction *);
+        Instruction * addLeaf(Instruction *, Instruction *);
 };
 
 class Command : public Instruction {
@@ -25,6 +32,7 @@ class Command : public Instruction {
         int * err;
 
     public:
+        Command();
         Command(char **, int &);
         ~Command();
         virtual bool execute();
@@ -32,11 +40,9 @@ class Command : public Instruction {
 
 class Connector : public Instruction {
     private:
-    protected:
-        Instruction *left;
-        Instruction *right;
 
     public:
+        Connector() : Instruction() {};
         Connector(Instruction * lInst, Instruction * rInst);
         virtual ~Connector();
         virtual bool execute() = 0;

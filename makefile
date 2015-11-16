@@ -1,30 +1,34 @@
 CC=g++
 CFLAGS=-Wall -Werror -ansi -pedantic
 SDIR=src
-BDIR=build
-ODIR=bin
+ODIR=build
+BDIR=bin
 
 all: rshell
 
-rshell: main.o command.o connector.o parser.o
+rshell: $(ODIR)main.o $(ODIR)instruction.o $(ODIR)command.o $(ODIR)connector.o $(ODIR)parser.o
+	mkdir -p $(BDIR)
+	$(CC) $(CFLAGS) $(ODIR)/*.o -o $(BDIR)/rshell
+
+$(ODIR)main.o:
 	mkdir -p $(ODIR)
-	$(CC) $(CFLAGS) $(BDIR)/*.o -o $(ODIR)/rshell
+	$(CC) $(CFLAGS) -c $(SDIR)/main.cpp -o $(ODIR)/main.o
 
-main.o:
-	mkdir -p $(BDIR)
-	$(CC) $(CFLAGS) -c $(SDIR)/main.cpp -o $(BDIR)/main.o
+$(ODIR)instruction.o:
+	mkdir -p $(ODIR)
+	$(CC) $(CFLAGS) -c $(SDIR)/instruction.cpp -o $(ODIR)/instruction.o
 
-command.o:
-	mkdir -p $(BDIR)
-	$(CC) $(CFLAGS) -c $(SDIR)/command.cpp -o $(BDIR)/command.o
+$(ODIR)command.o:
+	mkdir -p $(ODIR)
+	$(CC) $(CFLAGS) -c $(SDIR)/command.cpp -o $(ODIR)/command.o
 
-connector.o:
-	mkdir -p $(BDIR)
-	$(CC) $(CFLAGS) -c $(SDIR)/connector.cpp -o $(BDIR)/connector.o
+$(ODIR)connector.o:
+	mkdir -p $(ODIR)
+	$(CC) $(CFLAGS) -c $(SDIR)/connector.cpp -o $(ODIR)/connector.o
 
-parser.o:
-	mkdir -p $(BDIR)
-	$(CC) $(CFLAGS) -c $(SDIR)/parser.cpp -o $(BDIR)/parser.o
+$(ODIR)parser.o:
+	mkdir -p $(ODIR)
+	$(CC) $(CFLAGS) -c $(SDIR)/parser.cpp -o $(ODIR)/parser.o
 
 clean:
 	rm -r $(BDIR) $(ODIR)

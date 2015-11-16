@@ -16,6 +16,8 @@
 
 const char * const Parser::CONNECTOR[] = { "&&", "||", ";" };
 const char * const Parser::COMMENT[] = { "#" };
+const char * const Parser::OPENPAREN[] = { "[", "(" };
+const char * const Parser::CLOSEPAREN[] = { "]", ")" };
 
 Parser::Parser(char * rawInput) {
     parse(rawInput);
@@ -31,6 +33,7 @@ Parser::~Parser() {
 void Parser::parse(char * rawInput) {
     tokLine = tokenize(rawInput);
 }
+
 /*
  * tokenize: breaks up raw input into a tokenized array of c style strings.
  *           returns a vector of all the tokens created.
@@ -90,10 +93,44 @@ bool Parser::isComment(char *token) {
 }
 
 /*
+ */
+bool Parser::isClosingParen(char *token) {
+    for (int i = 0; i < NUMPARENTYPES; i++) {
+        if (strcmp(token, CLOSEPAREN[i]) == 0)
+            return true;
+    }
+    return false;
+}
+
+/*
  * isExit: not yet implemented.
  */
 bool Parser::isExit(char *token) {
     if (strcmp(token, "exit") == 0)
+        return true;
+    return false;
+}
+
+/*
+ * validParens: Checks if the vecotr tokLine had appropriatley closed parens.
+ */
+bool Parser::validParens() {
+    stack<char*> parenStack;
+    vector<char*>::const_iterator i = tokLine.begin();
+    while (i!= tokLine.end()) {
+        for (int j = 0; j < NUMPARENTYPES; ++j) {
+            if (*i == OPENPAREN[j]) {
+                parenStack.push(*i);
+            } else if (*i == CLOSEPAREN[j]) {
+                if (parenStack.empty())
+                    return false;
+                if (parenStack.top() != OPENPAREN[j])
+                    return false;
+                parenStack.pop();
+            }
+        }
+    }
+    if (parenStack.empty())
         return true;
     return false;
 }
@@ -105,6 +142,14 @@ bool Parser::isExit(char *token) {
  *             All leaves should be Commans.
  */
 Instruction * Parser::createTree() {
+    Instruction *exeTree = NULL;
+
+    vector<char*>::const_iterator i = tokLine.begin();
+    while (i != tokLine.end() && !isComment(*i)) {
+        exeTree = addInstruction(exeTree, i);
+    }
+    return exeTree;
+    /* old method
     Instruction *exeTree = NULL;
     char * temp;
     Command *cmd_1, *cmd_2;
@@ -123,11 +168,31 @@ Instruction * Parser::createTree() {
         exeTree = conn;
     }
     return exeTree;
+    */
+}
+
+/* 
+ * addInstruction: 
+ *                 Needs to handle parentheses.
+ */
+Instruction * Parser::addInstruction(Instruction * tree,
+        vector<char*>::const_iterator & i) {
+    if (i == tokLine.end() || isComment(*i) || isClosingParen(*i))
+        return tree;
+    if (isConnector(*i)) {
+        Connector * conn = newConnector(i);
+        tree = tree->addAsRoot(tree, conn);
+    } else {
+        Command * cmd = new Command(createArgArr(i), error);
+        tree = tree->addLeaf(tree, cmd);
+    }
+    return tree;
 }
 
 /*
- * newConnector: Creates a new connector from a pair of Instructionsand a 
- * C style string containing the characters representing that connection
+ * newConnector: Creates a new connector from a pair of Instructions and a 
+ *               C style string containing the characters representing that 
+ *               connection
  */
 Connector * Parser::newConnector(Instruction * inst_1, Instruction * inst_2,
         char* conn) {
@@ -144,3 +209,19 @@ Connector * Parser::newConnector(Instruction * inst_1, Instruction * inst_2,
     }
     return temp;
 }
+
+Connector * Parser::newConnector(vector<char*>::const_iterator & i) {
+    Connector * temp = NULL;
+    if (strcmp(*i, "&&") == 0) {
+        And *tempAnd =  new And();
+        temp = tempAnd;
+    } else if (strcmp(*i, "||") == 0) {
+        Or *tempOr =  new Or();
+        temp = tempOr;
+    } else if (strcmp(*i, ";") == 0) {
+        SemiColon *tempSemi =  new SemiColon();
+        temp = tempSemi;
+    }
+    return temp;
+}
+
